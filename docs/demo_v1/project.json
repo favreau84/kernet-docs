@@ -47,7 +47,7 @@
       "entityModelId": "em-sondages",
       "name": "Avancement",
       "states": "[{\"id\":\"a_realiser\",\"name\":\"À réaliser\",\"color\":\"blue\"},{\"id\":\"realise\",\"name\":\"Réalisé\",\"color\":\"green\"},{\"id\":\"envoye_labo\",\"name\":\"Envoyé labo\",\"color\":\"orange\"},{\"id\":\"resultat_recu\",\"name\":\"Résultat reçu\",\"color\":\"purple\"}]",
-      "transitions": "[{\"fromState\":\"a_realiser\",\"toState\":[\"realise\",\"envoye_labo\",\"resultat_recu\"]},{\"fromState\":\"realise\",\"toState\":[\"a_realiser\",\"envoye_labo\",\"resultat_recu\"]},{\"fromState\":\"envoye_labo\",\"toState\":[\"a_realiser\",\"realise\",\"resultat_recu\"]},{\"fromState\":\"resultat_recu\",\"toState\":[\"a_realiser\",\"realise\",\"envoye_labo\"]}]",
+      "transitions": "[]",
       "settings": null
     },
     {
@@ -55,7 +55,7 @@
       "entityModelId": "em-prelevements",
       "name": "Analyse",
       "states": "[{\"id\":\"en_attente\",\"name\":\"En attente\",\"color\":\"blue\"},{\"id\":\"envoye\",\"name\":\"Envoyé\",\"color\":\"orange\"},{\"id\":\"positif\",\"name\":\"Positif amiante\",\"color\":\"red\"},{\"id\":\"negatif\",\"name\":\"Négatif\",\"color\":\"green\"}]",
-      "transitions": "[{\"fromState\":\"en_attente\",\"toState\":[\"envoye\",\"positif\",\"negatif\"]},{\"fromState\":\"envoye\",\"toState\":[\"en_attente\",\"positif\",\"negatif\"]},{\"fromState\":\"positif\",\"toState\":[\"en_attente\",\"envoye\",\"negatif\"]},{\"fromState\":\"negatif\",\"toState\":[\"en_attente\",\"envoye\",\"positif\"]}]",
+      "transitions": "[]",
       "settings": null
     }
   ],
@@ -469,38 +469,6 @@
       "content": "Section de manchon prélevée au cutter. Matériau fibreux gris-blanc, aspect typique amosite.",
       "position": 0,
       "settings": "{\"level\":\"info\"}"
-    },
-    {
-      "id": "note-photo-flocage",
-      "entityId": "ent-mat-flocage",
-      "type": "photo",
-      "content": null,
-      "position": 1,
-      "settings": null
-    },
-    {
-      "id": "note-photo-calorifuge",
-      "entityId": "ent-mat-calorifuge",
-      "type": "photo",
-      "content": null,
-      "position": 1,
-      "settings": null
-    },
-    {
-      "id": "note-photo-dalle-sdb",
-      "entityId": "ent-mat-dalle-sdb",
-      "type": "photo",
-      "content": null,
-      "position": 1,
-      "settings": null
-    },
-    {
-      "id": "note-photo-facade",
-      "entityId": "ent-piece-salon",
-      "type": "photo",
-      "content": null,
-      "position": 1,
-      "settings": null
     }
   ],
   "links": [
@@ -557,51 +525,7 @@
     {"id": "lnk-26a", "sourceEntityId": "ent-prelev-008", "targetEntityId": "ent-sondage-008"},
     {"id": "lnk-26b", "sourceEntityId": "ent-sondage-008", "targetEntityId": "ent-prelev-008"}
   ],
-  "baseMaps": [
-    {
-      "id": "bm-rdc",
-      "projectId": "demo-diag-amiante",
-      "name": "Plan RDC",
-      "imagePath": null,
-      "settings": null
-    },
-    {
-      "id": "bm-r1",
-      "projectId": "demo-diag-amiante",
-      "name": "Plan R+1",
-      "imagePath": null,
-      "settings": null
-    },
-    {
-      "id": "bm-soussol",
-      "projectId": "demo-diag-amiante",
-      "name": "Plan Sous-sol",
-      "imagePath": null,
-      "settings": null
-    }
-  ],
-  "annotations": [
-    {"id": "ann-s01", "entityId": "ent-sondage-001", "baseMapId": "bm-soussol", "x": 0.35, "y": 0.45},
-    {"id": "ann-s06", "entityId": "ent-sondage-006", "baseMapId": "bm-soussol", "x": 0.65, "y": 0.50},
-    {"id": "ann-s02", "entityId": "ent-sondage-002", "baseMapId": "bm-rdc", "x": 0.30, "y": 0.40},
-    {"id": "ann-s03", "entityId": "ent-sondage-003", "baseMapId": "bm-rdc", "x": 0.70, "y": 0.35},
-    {"id": "ann-s09", "entityId": "ent-sondage-009", "baseMapId": "bm-rdc", "x": 0.75, "y": 0.55},
-    {"id": "ann-s10", "entityId": "ent-sondage-010", "baseMapId": "bm-rdc", "x": 0.25, "y": 0.60},
-    {"id": "ann-s04", "entityId": "ent-sondage-004", "baseMapId": "bm-r1", "x": 0.65, "y": 0.30},
-    {"id": "ann-s05", "entityId": "ent-sondage-005", "baseMapId": "bm-r1", "x": 0.55, "y": 0.65},
-    {"id": "ann-s07", "entityId": "ent-sondage-007", "baseMapId": "bm-r1", "x": 0.30, "y": 0.40},
-    {"id": "ann-s08", "entityId": "ent-sondage-008", "baseMapId": "bm-r1", "x": 0.35, "y": 0.55}
-  ],
-  "files": [
-    {"path": "basemaps/bm-rdc_full.jpg", "type": "basemap", "baseMapId": "bm-rdc"},
-    {"path": "basemaps/bm-rdc_thumb.jpg", "type": "basemap", "baseMapId": "bm-rdc"},
-    {"path": "basemaps/bm-r1_full.jpg", "type": "basemap", "baseMapId": "bm-r1"},
-    {"path": "basemaps/bm-r1_thumb.jpg", "type": "basemap", "baseMapId": "bm-r1"},
-    {"path": "basemaps/bm-soussol_full.jpg", "type": "basemap", "baseMapId": "bm-soussol"},
-    {"path": "basemaps/bm-soussol_thumb.jpg", "type": "basemap", "baseMapId": "bm-soussol"},
-    {"path": "photos/note-photo-flocage.jpg", "type": "photo", "noteId": "note-photo-flocage"},
-    {"path": "photos/note-photo-calorifuge.jpg", "type": "photo", "noteId": "note-photo-calorifuge"},
-    {"path": "photos/note-photo-dalle-sdb.jpg", "type": "photo", "noteId": "note-photo-dalle-sdb"},
-    {"path": "photos/note-photo-facade.jpg", "type": "photo", "noteId": "note-photo-facade"}
-  ]
+  "baseMaps": [],
+  "annotations": [],
+  "files": []
 }
