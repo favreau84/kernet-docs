@@ -1,0 +1,607 @@
+{
+  "version": 1,
+  "exportedAt": "2026-03-15T00:00:00Z",
+  "project": {
+    "id": "demo-diag-amiante",
+    "name": "Diagnostic Amiante - 12 rue des Lilas",
+    "color": null,
+    "settings": "{\"status\":\"en_cours\"}"
+  },
+  "entityModels": [
+    {
+      "id": "em-pieces",
+      "projectId": "demo-diag-amiante",
+      "name": "Pièce",
+      "icon": "location",
+      "color": "#1A73E8",
+      "settings": "{\"fields\":[{\"id\":\"surface\",\"name\":\"Surface (m²)\",\"type\":\"number\"},{\"id\":\"etage\",\"name\":\"Étage\",\"type\":\"text\"},{\"id\":\"description\",\"name\":\"Description\",\"type\":\"text\"}]}"
+    },
+    {
+      "id": "em-materiaux",
+      "projectId": "demo-diag-amiante",
+      "name": "Matériau",
+      "icon": "box",
+      "color": "#D97000",
+      "settings": "{\"fields\":[{\"id\":\"type_materiau\",\"name\":\"Type\",\"type\":\"text\"},{\"id\":\"etat_conservation\",\"name\":\"État de conservation\",\"type\":\"text\"},{\"id\":\"localisation\",\"name\":\"Localisation\",\"type\":\"text\"}]}"
+    },
+    {
+      "id": "em-sondages",
+      "projectId": "demo-diag-amiante",
+      "name": "Sondage",
+      "icon": "target",
+      "color": "#1E8E3E",
+      "settings": "{\"fields\":[{\"id\":\"methode\",\"name\":\"Méthode\",\"type\":\"text\"},{\"id\":\"profondeur\",\"name\":\"Profondeur (cm)\",\"type\":\"number\"},{\"id\":\"commentaire\",\"name\":\"Commentaire\",\"type\":\"text\"}]}"
+    },
+    {
+      "id": "em-prelevements",
+      "projectId": "demo-diag-amiante",
+      "name": "Prélèvement",
+      "icon": "warning",
+      "color": "#D93025",
+      "settings": "{\"fields\":[{\"id\":\"ref_labo\",\"name\":\"Réf. Labo\",\"type\":\"text\"},{\"id\":\"date_envoi\",\"name\":\"Date envoi\",\"type\":\"text\"},{\"id\":\"resultat\",\"name\":\"Résultat\",\"type\":\"text\"}]}"
+    }
+  ],
+  "stateModels": [
+    {
+      "id": "sm-sondage-avancement",
+      "entityModelId": "em-sondages",
+      "name": "Avancement",
+      "states": "[{\"id\":\"a_realiser\",\"name\":\"À réaliser\",\"color\":\"blue\"},{\"id\":\"realise\",\"name\":\"Réalisé\",\"color\":\"green\"},{\"id\":\"envoye_labo\",\"name\":\"Envoyé labo\",\"color\":\"orange\"},{\"id\":\"resultat_recu\",\"name\":\"Résultat reçu\",\"color\":\"purple\"}]",
+      "transitions": "[{\"fromState\":\"a_realiser\",\"toState\":[\"realise\",\"envoye_labo\",\"resultat_recu\"]},{\"fromState\":\"realise\",\"toState\":[\"a_realiser\",\"envoye_labo\",\"resultat_recu\"]},{\"fromState\":\"envoye_labo\",\"toState\":[\"a_realiser\",\"realise\",\"resultat_recu\"]},{\"fromState\":\"resultat_recu\",\"toState\":[\"a_realiser\",\"realise\",\"envoye_labo\"]}]",
+      "settings": null
+    },
+    {
+      "id": "sm-prelevement-analyse",
+      "entityModelId": "em-prelevements",
+      "name": "Analyse",
+      "states": "[{\"id\":\"en_attente\",\"name\":\"En attente\",\"color\":\"blue\"},{\"id\":\"envoye\",\"name\":\"Envoyé\",\"color\":\"orange\"},{\"id\":\"positif\",\"name\":\"Positif amiante\",\"color\":\"red\"},{\"id\":\"negatif\",\"name\":\"Négatif\",\"color\":\"green\"}]",
+      "transitions": "[{\"fromState\":\"en_attente\",\"toState\":[\"envoye\",\"positif\",\"negatif\"]},{\"fromState\":\"envoye\",\"toState\":[\"en_attente\",\"positif\",\"negatif\"]},{\"fromState\":\"positif\",\"toState\":[\"en_attente\",\"envoye\",\"negatif\"]},{\"fromState\":\"negatif\",\"toState\":[\"en_attente\",\"envoye\",\"positif\"]}]",
+      "settings": null
+    }
+  ],
+  "listings": [
+    {
+      "id": "lst-pieces",
+      "projectId": "demo-diag-amiante",
+      "entityModelId": "em-pieces",
+      "name": "Pièces",
+      "icon": "location",
+      "color": "#1A73E8",
+      "settings": null
+    },
+    {
+      "id": "lst-materiaux",
+      "projectId": "demo-diag-amiante",
+      "entityModelId": "em-materiaux",
+      "name": "Matériaux",
+      "icon": "box",
+      "color": "#D97000",
+      "settings": null
+    },
+    {
+      "id": "lst-sondages",
+      "projectId": "demo-diag-amiante",
+      "entityModelId": "em-sondages",
+      "name": "Sondages",
+      "icon": "target",
+      "color": "#1E8E3E",
+      "settings": "{\"incrementalNaming\":true,\"incrementalFirstName\":\"S-001\"}"
+    },
+    {
+      "id": "lst-prelevements",
+      "projectId": "demo-diag-amiante",
+      "entityModelId": "em-prelevements",
+      "name": "Prélèvements",
+      "icon": "warning",
+      "color": "#D93025",
+      "settings": "{\"incrementalNaming\":true,\"incrementalFirstName\":\"P-001\"}"
+    }
+  ],
+  "listingStateModels": [
+    {
+      "id": "lsm-sondage-1",
+      "listingId": "lst-sondages",
+      "stateModelId": "sm-sondage-avancement",
+      "name": "Avancement",
+      "visible": 1,
+      "settings": null
+    },
+    {
+      "id": "lsm-prelevement-1",
+      "listingId": "lst-prelevements",
+      "stateModelId": "sm-prelevement-analyse",
+      "name": "Analyse",
+      "visible": 1,
+      "settings": null
+    }
+  ],
+  "entities": [
+    {
+      "id": "ent-piece-salon",
+      "listingId": "lst-pieces",
+      "entityModelId": "em-pieces",
+      "name": "Salon",
+      "fields": "{\"surface\":\"28\",\"etage\":\"RDC\",\"description\":\"Pièce principale, faux-plafond dalles 60x60\"}",
+      "stateValues": null,
+      "settings": null
+    },
+    {
+      "id": "ent-piece-cuisine",
+      "listingId": "lst-pieces",
+      "entityModelId": "em-pieces",
+      "name": "Cuisine",
+      "fields": "{\"surface\":\"12\",\"etage\":\"RDC\",\"description\":\"Dalles de sol vinyle, murs enduits\"}",
+      "stateValues": null,
+      "settings": null
+    },
+    {
+      "id": "ent-piece-chambre1",
+      "listingId": "lst-pieces",
+      "entityModelId": "em-pieces",
+      "name": "Chambre 1",
+      "fields": "{\"surface\":\"14\",\"etage\":\"R+1\",\"description\":\"Faux-plafond, moquette collée\"}",
+      "stateValues": null,
+      "settings": null
+    },
+    {
+      "id": "ent-piece-chambre2",
+      "listingId": "lst-pieces",
+      "entityModelId": "em-pieces",
+      "name": "Chambre 2",
+      "fields": "{\"surface\":\"11\",\"etage\":\"R+1\",\"description\":\"Enduit projeté au plafond\"}",
+      "stateValues": null,
+      "settings": null
+    },
+    {
+      "id": "ent-piece-sdb",
+      "listingId": "lst-pieces",
+      "entityModelId": "em-pieces",
+      "name": "Salle de bain",
+      "fields": "{\"surface\":\"6\",\"etage\":\"R+1\",\"description\":\"Dalles vinyle, colle noire visible\"}",
+      "stateValues": null,
+      "settings": null
+    },
+    {
+      "id": "ent-piece-cave",
+      "listingId": "lst-pieces",
+      "entityModelId": "em-pieces",
+      "name": "Cave",
+      "fields": "{\"surface\":\"18\",\"etage\":\"Sous-sol\",\"description\":\"Canalisation calorifugée, flocage sur poutre\"}",
+      "stateValues": null,
+      "settings": null
+    },
+    {
+      "id": "ent-mat-flocage",
+      "listingId": "lst-materiaux",
+      "entityModelId": "em-materiaux",
+      "name": "Flocage poutre cave",
+      "fields": "{\"type_materiau\":\"Flocage\",\"etat_conservation\":\"Dégradé - fibres visibles\",\"localisation\":\"Cave - poutre IPN centrale\"}",
+      "stateValues": null,
+      "settings": null
+    },
+    {
+      "id": "ent-mat-fauxplafond",
+      "listingId": "lst-materiaux",
+      "entityModelId": "em-materiaux",
+      "name": "Faux-plafond dalles salon",
+      "fields": "{\"type_materiau\":\"Faux-plafond en dalles\",\"etat_conservation\":\"Bon état général\",\"localisation\":\"Salon - plafond intégral\"}",
+      "stateValues": null,
+      "settings": null
+    },
+    {
+      "id": "ent-mat-dalle-cuisine",
+      "listingId": "lst-materiaux",
+      "entityModelId": "em-materiaux",
+      "name": "Dalles vinyle cuisine",
+      "fields": "{\"type_materiau\":\"Dalle de sol vinyle\",\"etat_conservation\":\"Usure modérée, quelques cassures\",\"localisation\":\"Cuisine - sol complet\"}",
+      "stateValues": null,
+      "settings": null
+    },
+    {
+      "id": "ent-mat-dalle-sdb",
+      "listingId": "lst-materiaux",
+      "entityModelId": "em-materiaux",
+      "name": "Dalles vinyle SdB",
+      "fields": "{\"type_materiau\":\"Dalle de sol vinyle\",\"etat_conservation\":\"Colle noire sous dalles\",\"localisation\":\"Salle de bain - sol complet\"}",
+      "stateValues": null,
+      "settings": null
+    },
+    {
+      "id": "ent-mat-enduit-ch2",
+      "listingId": "lst-materiaux",
+      "entityModelId": "em-materiaux",
+      "name": "Enduit plafond chambre 2",
+      "fields": "{\"type_materiau\":\"Enduit projeté\",\"etat_conservation\":\"Bon état\",\"localisation\":\"Chambre 2 - plafond\"}",
+      "stateValues": null,
+      "settings": null
+    },
+    {
+      "id": "ent-mat-calorifuge",
+      "listingId": "lst-materiaux",
+      "entityModelId": "em-materiaux",
+      "name": "Calorifugeage cave",
+      "fields": "{\"type_materiau\":\"Calorifugeage tuyauterie\",\"etat_conservation\":\"Dégradé - manchon ouvert\",\"localisation\":\"Cave - réseau chauffage\"}",
+      "stateValues": null,
+      "settings": null
+    },
+    {
+      "id": "ent-mat-moquette",
+      "listingId": "lst-materiaux",
+      "entityModelId": "em-materiaux",
+      "name": "Moquette chambre 1",
+      "fields": "{\"type_materiau\":\"Moquette collée\",\"etat_conservation\":\"Usée, colle visible en périphérie\",\"localisation\":\"Chambre 1 - sol complet\"}",
+      "stateValues": null,
+      "settings": null
+    },
+    {
+      "id": "ent-mat-fauxplafond-ch1",
+      "listingId": "lst-materiaux",
+      "entityModelId": "em-materiaux",
+      "name": "Faux-plafond chambre 1",
+      "fields": "{\"type_materiau\":\"Faux-plafond en dalles\",\"etat_conservation\":\"Bon état\",\"localisation\":\"Chambre 1 - plafond intégral\"}",
+      "stateValues": null,
+      "settings": null
+    },
+    {
+      "id": "ent-sondage-001",
+      "listingId": "lst-sondages",
+      "entityModelId": "em-sondages",
+      "name": "S-001",
+      "fields": "{\"methode\":\"Prélèvement surfacique\",\"profondeur\":\"2\",\"commentaire\":\"Flocage poutre - zone dégradée\"}",
+      "stateValues": "{\"sm-sondage-avancement\":\"resultat_recu\"}",
+      "settings": null
+    },
+    {
+      "id": "ent-sondage-002",
+      "listingId": "lst-sondages",
+      "entityModelId": "em-sondages",
+      "name": "S-002",
+      "fields": "{\"methode\":\"Prélèvement surfacique\",\"profondeur\":\"1\",\"commentaire\":\"Dalle faux-plafond salon\"}",
+      "stateValues": "{\"sm-sondage-avancement\":\"resultat_recu\"}",
+      "settings": null
+    },
+    {
+      "id": "ent-sondage-003",
+      "listingId": "lst-sondages",
+      "entityModelId": "em-sondages",
+      "name": "S-003",
+      "fields": "{\"methode\":\"Prélèvement matériau\",\"profondeur\":\"3\",\"commentaire\":\"Dalle vinyle cuisine + colle\"}",
+      "stateValues": "{\"sm-sondage-avancement\":\"envoye_labo\"}",
+      "settings": null
+    },
+    {
+      "id": "ent-sondage-004",
+      "listingId": "lst-sondages",
+      "entityModelId": "em-sondages",
+      "name": "S-004",
+      "fields": "{\"methode\":\"Prélèvement matériau\",\"profondeur\":\"2\",\"commentaire\":\"Dalle vinyle SdB + colle noire\"}",
+      "stateValues": "{\"sm-sondage-avancement\":\"envoye_labo\"}",
+      "settings": null
+    },
+    {
+      "id": "ent-sondage-005",
+      "listingId": "lst-sondages",
+      "entityModelId": "em-sondages",
+      "name": "S-005",
+      "fields": "{\"methode\":\"Prélèvement surfacique\",\"profondeur\":\"1\",\"commentaire\":\"Enduit projeté plafond chambre 2\"}",
+      "stateValues": "{\"sm-sondage-avancement\":\"realise\"}",
+      "settings": null
+    },
+    {
+      "id": "ent-sondage-006",
+      "listingId": "lst-sondages",
+      "entityModelId": "em-sondages",
+      "name": "S-006",
+      "fields": "{\"methode\":\"Prélèvement matériau\",\"profondeur\":\"5\",\"commentaire\":\"Calorifugeage cave - manchon ouvert\"}",
+      "stateValues": "{\"sm-sondage-avancement\":\"resultat_recu\"}",
+      "settings": null
+    },
+    {
+      "id": "ent-sondage-007",
+      "listingId": "lst-sondages",
+      "entityModelId": "em-sondages",
+      "name": "S-007",
+      "fields": "{\"methode\":\"Prélèvement matériau\",\"profondeur\":\"2\",\"commentaire\":\"Colle moquette chambre 1\"}",
+      "stateValues": "{\"sm-sondage-avancement\":\"realise\"}",
+      "settings": null
+    },
+    {
+      "id": "ent-sondage-008",
+      "listingId": "lst-sondages",
+      "entityModelId": "em-sondages",
+      "name": "S-008",
+      "fields": "{\"methode\":\"Prélèvement surfacique\",\"profondeur\":\"1\",\"commentaire\":\"Dalle faux-plafond chambre 1\"}",
+      "stateValues": "{\"sm-sondage-avancement\":\"a_realiser\"}",
+      "settings": null
+    },
+    {
+      "id": "ent-sondage-009",
+      "listingId": "lst-sondages",
+      "entityModelId": "em-sondages",
+      "name": "S-009",
+      "fields": "{\"methode\":\"Prélèvement surfacique\",\"profondeur\":\"1\",\"commentaire\":\"Enduit mur cuisine\"}",
+      "stateValues": "{\"sm-sondage-avancement\":\"a_realiser\"}",
+      "settings": null
+    },
+    {
+      "id": "ent-sondage-010",
+      "listingId": "lst-sondages",
+      "entityModelId": "em-sondages",
+      "name": "S-010",
+      "fields": "{\"methode\":\"Prélèvement matériau\",\"profondeur\":\"3\",\"commentaire\":\"Joint fenêtre salon\"}",
+      "stateValues": "{\"sm-sondage-avancement\":\"a_realiser\"}",
+      "settings": null
+    },
+    {
+      "id": "ent-prelev-001",
+      "listingId": "lst-prelevements",
+      "entityModelId": "em-prelevements",
+      "name": "P-001",
+      "fields": "{\"ref_labo\":\"LAB-2026-0412\",\"date_envoi\":\"2026-03-01\",\"resultat\":\"Positif - Chrysotile 5%\"}",
+      "stateValues": "{\"sm-prelevement-analyse\":\"positif\"}",
+      "settings": null
+    },
+    {
+      "id": "ent-prelev-002",
+      "listingId": "lst-prelevements",
+      "entityModelId": "em-prelevements",
+      "name": "P-002",
+      "fields": "{\"ref_labo\":\"LAB-2026-0413\",\"date_envoi\":\"2026-03-01\",\"resultat\":\"Négatif\"}",
+      "stateValues": "{\"sm-prelevement-analyse\":\"negatif\"}",
+      "settings": null
+    },
+    {
+      "id": "ent-prelev-003",
+      "listingId": "lst-prelevements",
+      "entityModelId": "em-prelevements",
+      "name": "P-003",
+      "fields": "{\"ref_labo\":\"LAB-2026-0501\",\"date_envoi\":\"2026-03-05\",\"resultat\":\"\"}",
+      "stateValues": "{\"sm-prelevement-analyse\":\"envoye\"}",
+      "settings": null
+    },
+    {
+      "id": "ent-prelev-004",
+      "listingId": "lst-prelevements",
+      "entityModelId": "em-prelevements",
+      "name": "P-004",
+      "fields": "{\"ref_labo\":\"LAB-2026-0502\",\"date_envoi\":\"2026-03-05\",\"resultat\":\"\"}",
+      "stateValues": "{\"sm-prelevement-analyse\":\"envoye\"}",
+      "settings": null
+    },
+    {
+      "id": "ent-prelev-005",
+      "listingId": "lst-prelevements",
+      "entityModelId": "em-prelevements",
+      "name": "P-005",
+      "fields": "{\"ref_labo\":\"\",\"date_envoi\":\"\",\"resultat\":\"\"}",
+      "stateValues": "{\"sm-prelevement-analyse\":\"en_attente\"}",
+      "settings": null
+    },
+    {
+      "id": "ent-prelev-006",
+      "listingId": "lst-prelevements",
+      "entityModelId": "em-prelevements",
+      "name": "P-006",
+      "fields": "{\"ref_labo\":\"LAB-2026-0414\",\"date_envoi\":\"2026-03-01\",\"resultat\":\"Positif - Amosite 2%\"}",
+      "stateValues": "{\"sm-prelevement-analyse\":\"positif\"}",
+      "settings": null
+    },
+    {
+      "id": "ent-prelev-007",
+      "listingId": "lst-prelevements",
+      "entityModelId": "em-prelevements",
+      "name": "P-007",
+      "fields": "{\"ref_labo\":\"\",\"date_envoi\":\"\",\"resultat\":\"\"}",
+      "stateValues": "{\"sm-prelevement-analyse\":\"en_attente\"}",
+      "settings": null
+    },
+    {
+      "id": "ent-prelev-008",
+      "listingId": "lst-prelevements",
+      "entityModelId": "em-prelevements",
+      "name": "P-008",
+      "fields": "{\"ref_labo\":\"\",\"date_envoi\":\"\",\"resultat\":\"\"}",
+      "stateValues": "{\"sm-prelevement-analyse\":\"en_attente\"}",
+      "settings": null
+    }
+  ],
+  "notes": [
+    {
+      "id": "note-1",
+      "entityId": "ent-mat-flocage",
+      "type": "text",
+      "content": "Flocage très dégradé sur environ 2m linéaires. Fibres visibles à l'œil nu. Zone à sécuriser en priorité.",
+      "position": 0,
+      "settings": "{\"level\":\"blocking\"}"
+    },
+    {
+      "id": "note-2",
+      "entityId": "ent-mat-calorifuge",
+      "type": "text",
+      "content": "Manchon ouvert sur environ 30cm au niveau du coude. Fibres apparentes.",
+      "position": 0,
+      "settings": "{\"level\":\"alert\"}"
+    },
+    {
+      "id": "note-3",
+      "entityId": "ent-mat-dalle-sdb",
+      "type": "text",
+      "content": "Colle noire type bitumineux visible sous les dalles décollées côté baignoire.",
+      "position": 0,
+      "settings": "{\"level\":\"alert\"}"
+    },
+    {
+      "id": "note-4",
+      "entityId": "ent-sondage-001",
+      "type": "text",
+      "content": "Prélèvement réalisé sur zone la plus dégradée de la poutre. Échantillon friable.",
+      "position": 0,
+      "settings": "{\"level\":\"info\"}"
+    },
+    {
+      "id": "note-5",
+      "entityId": "ent-prelev-001",
+      "type": "text",
+      "content": "Résultat positif confirmé par le laboratoire. Chrysotile à 5%. Travaux de retrait à prévoir.",
+      "position": 0,
+      "settings": "{\"level\":\"blocking\"}"
+    },
+    {
+      "id": "note-6",
+      "entityId": "ent-prelev-006",
+      "type": "text",
+      "content": "Amosite détectée à 2% dans le calorifugeage. Confinement immédiat recommandé.",
+      "position": 0,
+      "settings": "{\"level\":\"blocking\"}"
+    },
+    {
+      "id": "note-7",
+      "entityId": "ent-piece-cave",
+      "type": "text",
+      "content": "Accès par escalier étroit. Hauteur sous poutre limitée (~1m80). Prévoir éclairage portable.",
+      "position": 0,
+      "settings": "{\"level\":\"info\"}"
+    },
+    {
+      "id": "note-8",
+      "entityId": "ent-sondage-006",
+      "type": "text",
+      "content": "Section de manchon prélevée au cutter. Matériau fibreux gris-blanc, aspect typique amosite.",
+      "position": 0,
+      "settings": "{\"level\":\"info\"}"
+    },
+    {
+      "id": "note-photo-flocage",
+      "entityId": "ent-mat-flocage",
+      "type": "photo",
+      "content": null,
+      "position": 1,
+      "settings": null
+    },
+    {
+      "id": "note-photo-calorifuge",
+      "entityId": "ent-mat-calorifuge",
+      "type": "photo",
+      "content": null,
+      "position": 1,
+      "settings": null
+    },
+    {
+      "id": "note-photo-dalle-sdb",
+      "entityId": "ent-mat-dalle-sdb",
+      "type": "photo",
+      "content": null,
+      "position": 1,
+      "settings": null
+    },
+    {
+      "id": "note-photo-facade",
+      "entityId": "ent-piece-salon",
+      "type": "photo",
+      "content": null,
+      "position": 1,
+      "settings": null
+    }
+  ],
+  "links": [
+    {"id": "lnk-01a", "sourceEntityId": "ent-sondage-001", "targetEntityId": "ent-piece-cave"},
+    {"id": "lnk-01b", "sourceEntityId": "ent-piece-cave", "targetEntityId": "ent-sondage-001"},
+    {"id": "lnk-02a", "sourceEntityId": "ent-sondage-002", "targetEntityId": "ent-piece-salon"},
+    {"id": "lnk-02b", "sourceEntityId": "ent-piece-salon", "targetEntityId": "ent-sondage-002"},
+    {"id": "lnk-03a", "sourceEntityId": "ent-sondage-003", "targetEntityId": "ent-piece-cuisine"},
+    {"id": "lnk-03b", "sourceEntityId": "ent-piece-cuisine", "targetEntityId": "ent-sondage-003"},
+    {"id": "lnk-04a", "sourceEntityId": "ent-sondage-004", "targetEntityId": "ent-piece-sdb"},
+    {"id": "lnk-04b", "sourceEntityId": "ent-piece-sdb", "targetEntityId": "ent-sondage-004"},
+    {"id": "lnk-05a", "sourceEntityId": "ent-sondage-005", "targetEntityId": "ent-piece-chambre2"},
+    {"id": "lnk-05b", "sourceEntityId": "ent-piece-chambre2", "targetEntityId": "ent-sondage-005"},
+    {"id": "lnk-06a", "sourceEntityId": "ent-sondage-006", "targetEntityId": "ent-piece-cave"},
+    {"id": "lnk-06b", "sourceEntityId": "ent-piece-cave", "targetEntityId": "ent-sondage-006"},
+    {"id": "lnk-07a", "sourceEntityId": "ent-sondage-007", "targetEntityId": "ent-piece-chambre1"},
+    {"id": "lnk-07b", "sourceEntityId": "ent-piece-chambre1", "targetEntityId": "ent-sondage-007"},
+    {"id": "lnk-08a", "sourceEntityId": "ent-sondage-008", "targetEntityId": "ent-piece-chambre1"},
+    {"id": "lnk-08b", "sourceEntityId": "ent-piece-chambre1", "targetEntityId": "ent-sondage-008"},
+    {"id": "lnk-09a", "sourceEntityId": "ent-sondage-009", "targetEntityId": "ent-piece-cuisine"},
+    {"id": "lnk-09b", "sourceEntityId": "ent-piece-cuisine", "targetEntityId": "ent-sondage-009"},
+    {"id": "lnk-10a", "sourceEntityId": "ent-sondage-010", "targetEntityId": "ent-piece-salon"},
+    {"id": "lnk-10b", "sourceEntityId": "ent-piece-salon", "targetEntityId": "ent-sondage-010"},
+    {"id": "lnk-11a", "sourceEntityId": "ent-sondage-001", "targetEntityId": "ent-mat-flocage"},
+    {"id": "lnk-11b", "sourceEntityId": "ent-mat-flocage", "targetEntityId": "ent-sondage-001"},
+    {"id": "lnk-12a", "sourceEntityId": "ent-sondage-002", "targetEntityId": "ent-mat-fauxplafond"},
+    {"id": "lnk-12b", "sourceEntityId": "ent-mat-fauxplafond", "targetEntityId": "ent-sondage-002"},
+    {"id": "lnk-13a", "sourceEntityId": "ent-sondage-003", "targetEntityId": "ent-mat-dalle-cuisine"},
+    {"id": "lnk-13b", "sourceEntityId": "ent-mat-dalle-cuisine", "targetEntityId": "ent-sondage-003"},
+    {"id": "lnk-14a", "sourceEntityId": "ent-sondage-004", "targetEntityId": "ent-mat-dalle-sdb"},
+    {"id": "lnk-14b", "sourceEntityId": "ent-mat-dalle-sdb", "targetEntityId": "ent-sondage-004"},
+    {"id": "lnk-15a", "sourceEntityId": "ent-sondage-005", "targetEntityId": "ent-mat-enduit-ch2"},
+    {"id": "lnk-15b", "sourceEntityId": "ent-mat-enduit-ch2", "targetEntityId": "ent-sondage-005"},
+    {"id": "lnk-16a", "sourceEntityId": "ent-sondage-006", "targetEntityId": "ent-mat-calorifuge"},
+    {"id": "lnk-16b", "sourceEntityId": "ent-mat-calorifuge", "targetEntityId": "ent-sondage-006"},
+    {"id": "lnk-17a", "sourceEntityId": "ent-sondage-007", "targetEntityId": "ent-mat-moquette"},
+    {"id": "lnk-17b", "sourceEntityId": "ent-mat-moquette", "targetEntityId": "ent-sondage-007"},
+    {"id": "lnk-18a", "sourceEntityId": "ent-sondage-008", "targetEntityId": "ent-mat-fauxplafond-ch1"},
+    {"id": "lnk-18b", "sourceEntityId": "ent-mat-fauxplafond-ch1", "targetEntityId": "ent-sondage-008"},
+    {"id": "lnk-19a", "sourceEntityId": "ent-prelev-001", "targetEntityId": "ent-sondage-001"},
+    {"id": "lnk-19b", "sourceEntityId": "ent-sondage-001", "targetEntityId": "ent-prelev-001"},
+    {"id": "lnk-20a", "sourceEntityId": "ent-prelev-002", "targetEntityId": "ent-sondage-002"},
+    {"id": "lnk-20b", "sourceEntityId": "ent-sondage-002", "targetEntityId": "ent-prelev-002"},
+    {"id": "lnk-21a", "sourceEntityId": "ent-prelev-003", "targetEntityId": "ent-sondage-003"},
+    {"id": "lnk-21b", "sourceEntityId": "ent-sondage-003", "targetEntityId": "ent-prelev-003"},
+    {"id": "lnk-22a", "sourceEntityId": "ent-prelev-004", "targetEntityId": "ent-sondage-004"},
+    {"id": "lnk-22b", "sourceEntityId": "ent-sondage-004", "targetEntityId": "ent-prelev-004"},
+    {"id": "lnk-23a", "sourceEntityId": "ent-prelev-005", "targetEntityId": "ent-sondage-005"},
+    {"id": "lnk-23b", "sourceEntityId": "ent-sondage-005", "targetEntityId": "ent-prelev-005"},
+    {"id": "lnk-24a", "sourceEntityId": "ent-prelev-006", "targetEntityId": "ent-sondage-006"},
+    {"id": "lnk-24b", "sourceEntityId": "ent-sondage-006", "targetEntityId": "ent-prelev-006"},
+    {"id": "lnk-25a", "sourceEntityId": "ent-prelev-007", "targetEntityId": "ent-sondage-007"},
+    {"id": "lnk-25b", "sourceEntityId": "ent-sondage-007", "targetEntityId": "ent-prelev-007"},
+    {"id": "lnk-26a", "sourceEntityId": "ent-prelev-008", "targetEntityId": "ent-sondage-008"},
+    {"id": "lnk-26b", "sourceEntityId": "ent-sondage-008", "targetEntityId": "ent-prelev-008"}
+  ],
+  "baseMaps": [
+    {
+      "id": "bm-rdc",
+      "projectId": "demo-diag-amiante",
+      "name": "Plan RDC",
+      "imagePath": null,
+      "settings": null
+    },
+    {
+      "id": "bm-r1",
+      "projectId": "demo-diag-amiante",
+      "name": "Plan R+1",
+      "imagePath": null,
+      "settings": null
+    },
+    {
+      "id": "bm-soussol",
+      "projectId": "demo-diag-amiante",
+      "name": "Plan Sous-sol",
+      "imagePath": null,
+      "settings": null
+    }
+  ],
+  "annotations": [
+    {"id": "ann-s01", "entityId": "ent-sondage-001", "baseMapId": "bm-soussol", "x": 0.35, "y": 0.45},
+    {"id": "ann-s06", "entityId": "ent-sondage-006", "baseMapId": "bm-soussol", "x": 0.65, "y": 0.50},
+    {"id": "ann-s02", "entityId": "ent-sondage-002", "baseMapId": "bm-rdc", "x": 0.30, "y": 0.40},
+    {"id": "ann-s03", "entityId": "ent-sondage-003", "baseMapId": "bm-rdc", "x": 0.70, "y": 0.35},
+    {"id": "ann-s09", "entityId": "ent-sondage-009", "baseMapId": "bm-rdc", "x": 0.75, "y": 0.55},
+    {"id": "ann-s10", "entityId": "ent-sondage-010", "baseMapId": "bm-rdc", "x": 0.25, "y": 0.60},
+    {"id": "ann-s04", "entityId": "ent-sondage-004", "baseMapId": "bm-r1", "x": 0.65, "y": 0.30},
+    {"id": "ann-s05", "entityId": "ent-sondage-005", "baseMapId": "bm-r1", "x": 0.55, "y": 0.65},
+    {"id": "ann-s07", "entityId": "ent-sondage-007", "baseMapId": "bm-r1", "x": 0.30, "y": 0.40},
+    {"id": "ann-s08", "entityId": "ent-sondage-008", "baseMapId": "bm-r1", "x": 0.35, "y": 0.55}
+  ],
+  "files": [
+    {"path": "basemaps/bm-rdc_full.jpg", "type": "basemap", "baseMapId": "bm-rdc"},
+    {"path": "basemaps/bm-rdc_thumb.jpg", "type": "basemap", "baseMapId": "bm-rdc"},
+    {"path": "basemaps/bm-r1_full.jpg", "type": "basemap", "baseMapId": "bm-r1"},
+    {"path": "basemaps/bm-r1_thumb.jpg", "type": "basemap", "baseMapId": "bm-r1"},
+    {"path": "basemaps/bm-soussol_full.jpg", "type": "basemap", "baseMapId": "bm-soussol"},
+    {"path": "basemaps/bm-soussol_thumb.jpg", "type": "basemap", "baseMapId": "bm-soussol"},
+    {"path": "photos/note-photo-flocage.jpg", "type": "photo", "noteId": "note-photo-flocage"},
+    {"path": "photos/note-photo-calorifuge.jpg", "type": "photo", "noteId": "note-photo-calorifuge"},
+    {"path": "photos/note-photo-dalle-sdb.jpg", "type": "photo", "noteId": "note-photo-dalle-sdb"},
+    {"path": "photos/note-photo-facade.jpg", "type": "photo", "noteId": "note-photo-facade"}
+  ]
+}
